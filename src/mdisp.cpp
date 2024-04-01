@@ -10,7 +10,7 @@
 // pin 4 - LCD chip select (CS)
 // pin 3 - LCD reset (RST)
 // Adafruit_PCD8544 display = Adafruit_PCD8544(5, 15, 4);
-Adafruit_PCD8544 display = Adafruit_PCD8544(5, 4, 3);
+Adafruit_PCD8544 display = Adafruit_PCD8544(2,3,4);
 
 void initMdispLcd(){
     display.begin();
