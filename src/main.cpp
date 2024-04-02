@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "mdisp.h"
 #include <AccelStepper.h>
+#include <Pushbutton.h>
 
 #define stepPin 10
 #define dirPin 9
@@ -12,56 +13,59 @@ int downState = 0;
 
 
 AccelStepper stepper = AccelStepper(AccelStepper::DRIVER, stepPin, dirPin);
-int currentPosition;
+Pushbutton upButton(up);
+Pushbutton downButton(down);
+Pushbutton startButton(startSwitch);
 // end of global vars
 
 // functions ... 
 void (* resetF)(void) = 0; // emercency reset to system.
-void initialize();
+void remedyInit();
 void startLooping(int times);
 // end of functions ...
 
-
 /// @brief  setup all components...
 void setup() {
-  pinMode(6, INPUT);
-  pinMode(7, INPUT);
   stepper.setMaxSpeed(1000);
   stepper.setAcceleration(30);
   initMdispLcd();
   printMdispChar(0,0, "REMEDY SHAKER");
   line(0, 10, 120, 10, 0);
-  initialize();
+  remedyInit();
+  startButton.waitForButton(); // wait here until start pressed
 }
 
 
 /// @brief  start main process
 void loop() {
-  
+  startLooping(1000);
 }
 
 /// @brief up and down to shake
 /// @param times 
 void startLooping(int times) {
-   while (upState == 0) {
-      stepper.setSpeed(200);
-      stepper.runSpeed();
-      upState = digitalRead(up);
-      Serial.println("+");
-  }
   
-  while (downState == 0) {
+  while (! downButton.getSingleDebouncedPress()) {
     stepper.setSpeed(-200);
     stepper.runSpeed();
-    downState = digitalRead(down);
   }
-  upState = digitalRead(up);
-  downState = digitalRead(down); 
+
+  while(! upButton.getSingleDebouncedPress()) {
+    stepper.setSpeed(200);
+    stepper.runSpeed();
+  }
+  // print to lcd
+
 }
-  
 
 /// @brief get tray to lower state
 /// maybe couple step higher to release the limit switch
-void initialize() {
- 
+void remedyInit() {
+  while( ! upButton.getSingleDebouncedPress() ) {
+    stepper.setSpeed(50);
+    stepper.runSpeed();
+  }
+  printMdispChar(1, 10, "INIT COMPLATED.");
+  delay(1000);
+  printMdispChar(1, 10, "WAITING FOR START");
 }

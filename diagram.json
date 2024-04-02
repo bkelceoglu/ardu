@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "author": "beyazit kelceoglu",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 19.8, "left": -106.2, "attrs": {} },
+    {
+      "type": "wokwi-stepper-motor",
+      "id": "stepper2",
+      "top": -121.19,
+      "left": 355.63,
+      "attrs": { "size": "17" }
+    },
+    { "type": "wokwi-a4988", "id": "drv1", "top": 72, "left": 283.2, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 265.4,
+      "left": 134.4,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": 323,
+      "left": 134.4,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn3",
+      "top": 390.2,
+      "left": 134.4,
+      "attrs": { "color": "green" }
+    }
+  ],
+  "connections": [
+    [ "drv1:2B", "stepper2:A-", "green", [ "h0" ] ],
+    [ "drv1:2A", "stepper2:A+", "green", [ "h0" ] ],
+    [ "drv1:1A", "stepper2:B+", "green", [ "h0" ] ],
+    [ "drv1:1B", "stepper2:B-", "green", [ "h0" ] ],
+    [ "uno:GND.3", "drv1:GND.1", "black", [ "v28.7", "h282.4", "v-96" ] ],
+    [ "uno:5V", "drv1:VDD", "red", [ "v38.3", "h311", "v-115.2" ] ],
+    [ "drv1:SLEEP", "drv1:RESET", "green", [ "h-28.8", "v-9.6" ] ],
+    [ "uno:10", "drv1:STEP", "brown", [ "v-48", "h202.3", "v153.6" ] ],
+    [ "uno:9", "drv1:DIR", "blue", [ "v-38.4", "h173.6", "v153.6", "h9.6" ] ],
+    [ "btn2:1.l", "uno:GND.2", "black", [ "h0" ] ],
+    [ "btn1:1.l", "uno:GND.3", "black", [ "h0" ] ],
+    [ "btn1:2.l", "uno:5V", "red", [ "h-86.4", "v-19" ] ],
+    [ "btn2:2.l", "uno:5V", "red", [ "h0" ] ],
+    [ "btn1:1.r", "uno:6", "pink", [ "v0", "h9.8", "v-259.2", "h-115.2" ] ],
+    [ "btn2:1.r", "uno:7", "yellow", [ "v0", "h19.4", "v-326.4", "h-134.4" ] ],
+    [ "btn3:1.l", "uno:GND.2", "black", [ "h0" ] ],
+    [ "btn3:2.l", "uno:5V", "red", [ "h0" ] ],
+    [ "btn3:1.r", "uno:8", "purple", [ "v0", "h38.6", "v-403.2", "h-172.8" ] ]
+  ],
+  "dependencies": {}
+}
