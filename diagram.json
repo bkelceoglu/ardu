@@ -27,12 +27,13 @@
       "attrs": { "color": "green" }
     },
     {
-      "type": "wokwi-pushbutton",
-      "id": "btn3",
-      "top": 390.2,
-      "left": 134.4,
-      "attrs": { "color": "green" }
-    }
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": 243.14,
+      "left": 393.83,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    { "type": "wokwi-membrane-keypad", "id": "keypad1", "top": -462.8, "left": 82.4, "attrs": {} }
   ],
   "connections": [
     [ "drv1:2B", "stepper2:A-", "green", [ "h0" ] ],
@@ -43,16 +44,24 @@
     [ "uno:5V", "drv1:VDD", "red", [ "v38.3", "h311", "v-115.2" ] ],
     [ "drv1:SLEEP", "drv1:RESET", "green", [ "h-28.8", "v-9.6" ] ],
     [ "uno:10", "drv1:STEP", "brown", [ "v-48", "h202.3", "v153.6" ] ],
-    [ "uno:9", "drv1:DIR", "blue", [ "v-38.4", "h173.6", "v153.6", "h9.6" ] ],
     [ "btn2:1.l", "uno:GND.2", "black", [ "h0" ] ],
     [ "btn1:1.l", "uno:GND.3", "black", [ "h0" ] ],
     [ "btn1:2.l", "uno:5V", "red", [ "h-86.4", "v-19" ] ],
     [ "btn2:2.l", "uno:5V", "red", [ "h0" ] ],
-    [ "btn1:1.r", "uno:6", "pink", [ "v0", "h9.8", "v-259.2", "h-115.2" ] ],
-    [ "btn2:1.r", "uno:7", "yellow", [ "v0", "h19.4", "v-326.4", "h-134.4" ] ],
-    [ "btn3:1.l", "uno:GND.2", "black", [ "h0" ] ],
-    [ "btn3:2.l", "uno:5V", "red", [ "h0" ] ],
-    [ "btn3:1.r", "uno:8", "purple", [ "v0", "h38.6", "v-403.2", "h-172.8" ] ]
+    [ "btn1:1.r", "uno:A1", "green", [ "v-57.6", "h-19" ] ],
+    [ "btn2:1.r", "uno:A2", "green", [ "v0", "h19.4", "v-124.8" ] ],
+    [ "oled1:GND", "uno:GND.3", "black", [ "v-28.8", "h-249.6" ] ],
+    [ "oled1:VCC", "uno:5V", "red", [ "v-28.8", "h0.15" ] ],
+    [ "oled1:SDA", "uno:A4", "green", [ "v-67.2", "h0.07" ] ],
+    [ "oled1:SCL", "uno:A5", "green", [ "v-76.8", "h-9.3" ] ],
+    [ "drv1:DIR", "uno:11", "green", [ "h-57.6", "v-182.4", "h-19.2" ] ],
+    [ "uno:9", "keypad1:R1", "green", [ "v0" ] ],
+    [ "uno:8", "keypad1:R2", "green", [ "v-144", "h115.6" ] ],
+    [ "uno:7", "keypad1:R3", "green", [ "v-134.4", "h13.2" ] ],
+    [ "uno:6", "keypad1:R4", "green", [ "v-124.8", "h22.9" ] ],
+    [ "uno:5", "keypad1:C1", "green", [ "v-115.2", "h13.4" ] ],
+    [ "uno:4", "keypad1:C2", "green", [ "v-105.6", "h3.9" ] ],
+    [ "uno:3", "keypad1:C3", "green", [ "v-96", "h4" ] ]
   ],
   "dependencies": {}
 }
