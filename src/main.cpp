@@ -97,7 +97,6 @@ void loop()
       stepper.setSpeed(200);
       stepper.runSpeed();
     }
-    
   }
 }
 
@@ -120,27 +119,17 @@ void remedyInit()
 void waitForNumberOfLoop()
 {
   boolean isSharp = true;
-  int counter = 0;
-  char k[5] = "";
-  k[5] = '\n';
+  char* output;
   while (isSharp)
   {
-    char key = keypad.getKey();
+    uint16_t key = keypad.getKey();
     if (key == '#')
     {
       Serial.println("# pressed");
-      isSharp = false;
     }
-    Serial.println(counter);
-
-    if ( (counter < 3) and (key == '1' or key == '2' or key == '3' or key == '4' or key == '5' or key == '6' or key == '7' or key == '8' or key == '9') )
+    if (key == '1')
     {
-      Serial.println(key);
-      k[counter] = key;
-      counter++;
+      Serial.println("1 pressed");
     }
-    display.setCursor(0, 50);
-    display.write(k);
-    display.display();
   }
 }
