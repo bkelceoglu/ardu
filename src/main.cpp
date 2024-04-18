@@ -140,9 +140,9 @@ void remedyInit()
     stepper.runSpeed();
   }
   display.setCursor(0, 10);
-  display.write("enter number of cycle and press #");
+  display.write("ENTER NUMBER OF CYCLE & PRESS #");
   display.setCursor(0, 30);
-  display.write("number of cycle: ");
+  display.drawLine(0, 40, 128, 40, 1);
   display.display();
   waitForNumberOfLoop();
 }
@@ -150,19 +150,20 @@ void remedyInit()
 void waitForNumberOfLoop()
 {
   boolean isSharp = true;
-  String k;
+  String value = "";
   while (isSharp)
   {
-    //uint16_t key = keypad.getKey();
     char key = keypad.getKey();
     if (key == '#')
     {
-      Serial.println("# pressed");
       isSharp = false;
-    }
-    if (key == '1')
+    } 
+    if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' || key == '7' || key == '8' || key == '9' || key == '0')
     {
-      Serial.println("1 pressed");
+      value += key;
+      display.setCursor(0, 50);
+      display.println(value);
+      display.display();
     }
   }
   loop();
