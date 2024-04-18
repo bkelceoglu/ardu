@@ -27,6 +27,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 int upState = 0;
 int downState = 0;
 int devider = 100;
+String userValue = "";
 AccelStepper stepper = AccelStepper(1, stepPin, dirPin);
 Pushbutton upButton(up);
 Pushbutton downButton(down);
@@ -87,7 +88,7 @@ void setup()
 void loop()
 {
 
-  int counter = 1000; // TODO: to be replaced
+  int counter = userValue.toInt();
   display.clearDisplay();
   display.display();
   for (int i = 0; i < counter; i++)
@@ -150,7 +151,7 @@ void remedyInit()
 void waitForNumberOfLoop()
 {
   boolean isSharp = true;
-  String value = "";
+  // String value = "";
   while (isSharp)
   {
     char key = keypad.getKey();
@@ -160,9 +161,9 @@ void waitForNumberOfLoop()
     } 
     if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' || key == '7' || key == '8' || key == '9' || key == '0')
     {
-      value += key;
+      userValue += key;
       display.setCursor(0, 50);
-      display.println(value);
+      display.println(userValue);
       display.display();
     }
   }
