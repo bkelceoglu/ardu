@@ -26,7 +26,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 int upState = 0;
 int downState = 0;
-int devider = 100;
+int divider = 100;
 String userValue = "";
 AccelStepper stepper = AccelStepper(1, stepPin, dirPin);
 Pushbutton upButton(up);
@@ -46,10 +46,15 @@ byte pin_column[COLUMN_NUM] = {5, 4, 3}; // connect to the column pinouts of the
 
 Keypad keypad = Keypad(makeKeymap(keys), pin_rows, pin_column, ROW_NUM, COLUMN_NUM);
 
+// functions....
 void (*resetF)(void) = 0; // emercency reset to system.
 void remedyInit();
 void goHome();
 void waitForNumberOfLoop();
+void countingScreen(int i);
+void dividerScreen();
+void homingScreen();
+// end of functions.... 
 
 void setup()
 {
@@ -69,17 +74,7 @@ void setup()
   display.clearDisplay();
   display.setTextSize(1);              // Normal 1:1 pixel scale
   display.setTextColor(SSD1306_WHITE); // Draw white text
-  display.setCursor(0, 0);
-  display.write("remedy");
-  display.display();
-
   remedyInit();
-  // keypad wait for entry
-  //
-  display.setCursor(0, 30);
-  display.write("counting....");
-  display.display();
-  // put your setup code here, to run once:
   delay(1000);
   display.clearDisplay();
   display.display();
@@ -89,8 +84,7 @@ void loop()
 {
 
   int counter = userValue.toInt();
-  display.clearDisplay();
-  display.display();
+  countingScreen(0);
   for (int i = 0; i < counter; i++)
   {
     while (!downButton.getSingleDebouncedPress())
@@ -104,26 +98,54 @@ void loop()
       stepper.setSpeed(200);
       stepper.runSpeed();
     }
-    display.clearDisplay();
-    display.display();
-    display.setCursor(0, 20);
-    display.print(i);
-    display.print('/');
-    display.print(counter);
-    display.display();
+    countingScreen(i);
     if (i != 0)
     {
-      if (i % 3 == 0)
+      if (i % 2 == 0)
       {
-        goHome();
+        dividerScreen();
       }
     }
   }
-  
+}
+
+void dividerScreen() {
+  display.clearDisplay();
+  display.display();
+  homingScreen();
+  display.setCursor(0,10);
+  display.print("TO PROCEED");
+  display.display(); delay(1000);
+  display.setCursor(0, 20);
+  display.print("PRESS #");
+  display.display();
+  delay(1000);
+  goHome();
+}
+
+void countingScreen(int i)
+{
+  int counter = userValue.toInt();
+  display.clearDisplay();
+  display.display();
+  display.setCursor(0,10);
+  display.println("IN PROCESS");
+  display.setCursor(0, 20);
+  display.print(i);
+  display.print(" / ");
+  display.print(counter);
+  display.display();
+}
+
+void homingScreen() {
+  display.setCursor(0, 50);
+  display.println("WAIT FOR HOMING");
+  display.display();
 }
 
 void goHome()
 {
+  homingScreen();
   while (!upButton.getSingleDebouncedPress())
   {
     stepper.setSpeed(50);
@@ -132,15 +154,22 @@ void goHome()
   while (keypad.getKey() != '#')
   {
   }
+  display.clearDisplay();
+  display.display();
 }
 
 void remedyInit()
 {
+  homingScreen();
+  
   while (!upButton.getSingleDebouncedPress())
   {
     stepper.setSpeed(50);
     stepper.runSpeed();
   }
+
+  display.clearDisplay();
+  display.display();
   display.setCursor(0, 10);
   display.write("ENTER NUMBER OF CYCLE & PRESS #");
   display.setCursor(0, 30);
@@ -159,7 +188,7 @@ void waitForNumberOfLoop()
     if (key == '#')
     {
       isSharp = false;
-    } 
+    }
     if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' || key == '7' || key == '8' || key == '9' || key == '0')
     {
       userValue += key;
